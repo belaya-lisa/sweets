@@ -52,12 +52,7 @@
         }
 
         .logo {
-            font-size: 24px;
-            font-family: 'Playfair Display', serif;
-            font-weight: 700;
             text-decoration: none;
-            color: var(--dark);
-            /* Добавлено для корректного отображения картинки */
             display: flex;
             align-items: center;
         }
@@ -90,18 +85,18 @@
 
         /* --- Hero Section --- */
         .hero {
-            height: 100vh;
+            height: 80vh;
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
             text-align: center;
-            background: #f9f9f9; /* Место для вашего главного фото */
+            background: #fdfdfd; 
             padding: 0 20px;
         }
 
         .hero h1 {
-            font-size: clamp(40px, 8vw, 80px);
+            font-size: clamp(35px, 6vw, 60px);
             margin-bottom: 20px;
         }
 
@@ -112,39 +107,44 @@
             max-width: 600px;
         }
 
-        /* --- Products Section --- */
+        /* --- Horizontal Catalog Section --- */
         .catalog {
-            padding: 100px 50px;
+            padding: 60px 0 100px 50px; /* Отступ слева для выравнивания */
         }
 
         .section-title {
-            text-align: center;
-            margin-bottom: 60px;
-            font-size: 32px;
+            margin-bottom: 40px;
+            font-size: 28px;
         }
 
         .grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 40px;
+            display: flex; /* Ряд вместо сетки */
+            gap: 30px;
+            overflow-x: auto; /* Включаем горизонтальный скролл */
+            scroll-snap-type: x mandatory; /* Эффект прилипания карточек */
+            padding-bottom: 20px;
+            scrollbar-width: none; /* Скрываем скроллбар в Firefox */
+            -ms-overflow-style: none;  /* Скрываем скроллбар в IE/Edge */
+        }
+
+        .grid::-webkit-scrollbar {
+            display: none; /* Скрываем скроллбар в Chrome/Safari */
         }
 
         .product-card {
+            flex: 0 0 350px; /* Карточки не сжимаются, ширина 350px */
+            scroll-snap-align: start; /* Карточка магнитится к началу */
             position: relative;
-            overflow: hidden;
             transition: var(--transition);
         }
 
         .product-image {
             width: 100%;
-            height: 400px;
-            background-color: #eee; /* Заглушка для фото */
-            object-fit: cover;
+            height: 450px;
+            background-color: #f4f4f4;
+            background-size: cover;
+            background-position: center;
             transition: var(--transition);
-        }
-
-        .product-card:hover .product-image {
-            transform: scale(1.05);
         }
 
         .product-info {
@@ -154,17 +154,12 @@
             align-items: flex-start;
         }
 
-        .product-info h3 {
-            font-size: 18px;
-            margin-bottom: 5px;
-        }
-
         .price {
             font-weight: 600;
         }
 
         .add-to-cart {
-            margin-top: 10px;
+            margin-top: 5px;
             width: 100%;
             padding: 12px;
             background: var(--dark);
@@ -172,13 +167,8 @@
             border: none;
             cursor: pointer;
             text-transform: uppercase;
-            font-size: 12px;
-            letter-spacing: 1px;
-            transition: var(--transition);
-        }
-
-        .add-to-cart:hover {
-            background: #444;
+            font-size: 11px;
+            letter-spacing: 2px;
         }
 
         /* --- Cart Sidebar --- */
@@ -197,30 +187,12 @@
             flex-direction: column;
         }
 
-        .cart-sidebar.active {
-            right: 0;
-        }
+        .cart-sidebar.active { right: 0; }
+        .close-cart { align-self: flex-end; cursor: pointer; font-size: 24px; }
+        .cart-items { margin-top: 30px; flex-grow: 1; overflow-y: auto; }
+        .cart-total { border-top: 1px solid #eee; padding-top: 20px; font-size: 20px; font-family: 'Playfair Display', serif; }
 
-        .close-cart {
-            align-self: flex-end;
-            cursor: pointer;
-            font-size: 24px;
-        }
-
-        .cart-items {
-            margin-top: 30px;
-            flex-grow: 1;
-            overflow-y: auto;
-        }
-
-        .cart-total {
-            border-top: 1px solid #eee;
-            padding-top: 20px;
-            font-size: 20px;
-            font-family: 'Playfair Display', serif;
-        }
-
-        /* --- Contact Section --- */
+        /* --- Contacts --- */
         .contacts {
             padding: 100px 50px;
             background: var(--accent);
@@ -230,26 +202,13 @@
             gap: 50px;
         }
 
-        .contact-info {
-            flex: 1;
-            min-width: 300px;
-        }
-
-        .contact-info h2 { margin-bottom: 30px; }
-        .contact-info p { margin-bottom: 15px; font-size: 14px; }
-
-        footer {
-            padding: 50px;
-            text-align: center;
-            font-size: 12px;
-            color: var(--text-muted);
-            border-top: 1px solid #eee;
-        }
+        footer { padding: 50px; text-align: center; font-size: 12px; color: var(--text-muted); border-top: 1px solid #eee; }
 
         @media (max-width: 768px) {
             nav { padding: 15px 20px; }
+            .catalog { padding-left: 20px; }
+            .product-card { flex: 0 0 280px; } /* Чуть меньше на мобилках */
             .cart-sidebar { width: 100%; }
-            .catalog, .contacts { padding: 60px 20px; }
         }
     </style>
 </head>
@@ -257,7 +216,7 @@
 
     <nav>
         <a href="#" class="logo">
-            <img src="logo.png" alt="Белая Лиса" style="height: 110px; width: auto;">
+            <img src="logo.png" alt="Белая Лиса" style="height: 50px; width: auto;">
         </a>
         <div class="nav-links">
             <a href="#catalog">Каталог</a>
@@ -270,15 +229,15 @@
 
     <section class="hero">
         <h1>Чистый вкус. Смелый дизайн.</h1>
-        <p>Современная кондитерская для тех, кто ценит эстетику и натуральность в каждом кусочке.</p>
-        <a href="#catalog" style="color: black; text-decoration: underline; font-size: 14px; text-transform: uppercase;">Смотреть коллекцию</a>
+        <p>Современная кондитерская для тех, кто ценит эстетику.</p>
+        <p style="font-size: 12px; text-transform: uppercase; letter-spacing: 2px;">Листайте коллекцию вправо &rarr;</p>
     </section>
 
     <section id="catalog" class="catalog">
         <h2 class="section-title">Сезонная коллекция</h2>
         <div class="grid">
             <div class="product-card">
-                <div class="product-image" style="background-image: url('https://via.placeholder.com/400x500/f4f4f4/1a1a1a?text=Cake+1'); background-size: cover;"></div>
+                <div class="product-image" style="background-image: url('product1.jpg');"></div>
                 <div class="product-info">
                     <div>
                         <h3>Муссовый торт "Нуар"</h3>
@@ -286,11 +245,11 @@
                     </div>
                     <span class="price">2400₽</span>
                 </div>
-                <button class="add-to-cart" onclick="addToCart('Торт Нуар', 2400)">Добавить в корзину</button>
+                <button class="add-to-cart" onclick="addToCart('Торт Нуар', 2400)">В корзину</button>
             </div>
 
             <div class="product-card">
-                <div class="product-image" style="background-image: url('https://via.placeholder.com/400x500/f4f4f4/1a1a1a?text=Cake+2'); background-size: cover;"></div>
+                <div class="product-image" style="background-image: url('product2.jpg');"></div>
                 <div class="product-info">
                     <div>
                         <h3>Сет макарон "White Fox"</h3>
@@ -298,52 +257,55 @@
                     </div>
                     <span class="price">1800₽</span>
                 </div>
-                <button class="add-to-cart" onclick="addToCart('Сет макарон', 1800)">Добавить в корзину</button>
+                <button class="add-to-cart" onclick="addToCart('Сет макарон', 1800)">В корзину</button>
             </div>
 
             <div class="product-card">
-                <div class="product-image" style="background-image: url('https://via.placeholder.com/400x500/f4f4f4/1a1a1a?text=Cake+3'); background-size: cover;"></div>
+                <div class="product-image" style="background-image: url('product3.jpg');"></div>
                 <div class="product-info">
                     <div>
-                        <h3>Тарталетка "Лимон-Базилик"</h3>
+                        <h3>Тарталетка "Лимон"</h3>
                         <p style="color: #888; font-size: 12px;">150г / Освежающий вкус</p>
                     </div>
                     <span class="price">450₽</span>
                 </div>
-                <button class="add-to-cart" onclick="addToCart('Тарталетка', 450)">Добавить в корзину</button>
+                <button class="add-to-cart" onclick="addToCart('Тарталетка', 450)">В корзину</button>
+            </div>
+
+            <div class="product-card">
+                <div class="product-image" style="background-image: url('product4.jpg');"></div>
+                <div class="product-info">
+                    <div>
+                        <h3>Эклер "Ваниль-Бурбон"</h3>
+                        <p style="color: #888; font-size: 12px;">90г / Натуральная ваниль</p>
+                    </div>
+                    <span class="price">350₽</span>
+                </div>
+                <button class="add-to-cart" onclick="addToCart('Эклер Ваниль', 350)">В корзину</button>
             </div>
         </div>
     </section>
 
     <section id="contacts" class="contacts">
         <div class="contact-info">
-            <h2>Свяжитесь с нами</h2>
-            <p><strong>Адрес:</strong> Москва, ул. Примерная, 12 (Дизайн-завод)</p>
+            <h2>Контакты</h2>
+            <p><strong>Адрес:</strong> Москва, ул. Примерная, 12</p>
             <p><strong>Телефон:</strong> +7 (999) 000-00-00</p>
-            <p><strong>Часы:</strong> 09:00 — 21:00 ежедневно</p>
-            <br>
-            <p>Заказы принимаются минимум за 48 часов до выдачи.</p>
         </div>
-        <div style="flex: 1; min-width: 300px; height: 300px; background: #ddd; display: flex; align-items: center; justify-content: center;">
-            <p style="color: #888;">[ Здесь будет карта ]</p>
+        <div style="flex: 1; min-width: 300px; height: 250px; background: #ddd; display: flex; align-items: center; justify-content: center;">
+            <p style="color: #888;">[ Карта ]</p>
         </div>
     </section>
 
     <div class="cart-sidebar" id="cartSidebar">
         <div class="close-cart" onclick="toggleCart()">×</div>
         <h2>Ваш заказ</h2>
-        <div class="cart-items" id="cartItems">
-            <p style="color: #888;">Корзина пуста</p>
-        </div>
-        <div class="cart-total">
-            Итого: <span id="cartTotal">0</span>₽
-        </div>
+        <div class="cart-items" id="cartItems"><p style="color: #888;">Корзина пуста</p></div>
+        <div class="cart-total">Итого: <span id="cartTotal">0</span>₽</div>
         <button class="add-to-cart" style="margin-top: 20px;">Оформить заказ</button>
     </div>
 
-    <footer>
-        &copy; 2025 Кондитерская «Белая Лиса». Эстетика вкуса.
-    </footer>
+    <footer>&copy; 2025 Кондитерская «Белая Лиса».</footer>
 
     <script>
         let cart = [];
@@ -352,38 +314,29 @@
         const cartCount = document.getElementById('cart-count');
         const cartTotal = document.getElementById('cartTotal');
 
-        function toggleCart() {
-            cartSidebar.classList.toggle('active');
-        }
+        function toggleCart() { cartSidebar.classList.toggle('active'); }
 
         function addToCart(name, price) {
             cart.push({name, price});
             updateCart();
-            if(!cartSidebar.classList.contains('active')) {
-                toggleCart();
-            }
+            if(!cartSidebar.classList.contains('active')) toggleCart();
         }
 
         function updateCart() {
             cartCount.innerText = cart.length;
-            
             if (cart.length === 0) {
                 cartItemsContainer.innerHTML = '<p style="color: #888;">Корзина пуста</p>';
                 cartTotal.innerText = 0;
                 return;
             }
-
-            cartItemsContainer.innerHTML = cart.map((item, index) => `
+            cartItemsContainer.innerHTML = cart.map(item => `
                 <div style="display: flex; justify-content: space-between; margin-bottom: 15px; font-size: 14px;">
                     <span>${item.name}</span>
                     <span>${item.price}₽</span>
                 </div>
             `).join('');
-
-            const total = cart.reduce((sum, item) => sum + item.price, 0);
-            cartTotal.innerText = total;
+            cartTotal.innerText = cart.reduce((sum, item) => sum + item.price, 0);
         }
     </script>
 </body>
 </html>
-
