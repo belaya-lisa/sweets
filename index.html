@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Белая Лиса | Авторская кондитерская</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --dark: #1a1a1a;
+            --light: #ffffff;
+            --accent: #f4f4f4;
+            --text-muted: #666;
+            --transition: all 0.3s ease;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: var(--light);
+            color: var(--dark);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        h1, h2, h3 {
+            font-family: 'Playfair Display', serif;
+            font-weight: 400;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        /* --- Navigation --- */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            padding: 20px 50px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(255, 255, 255, 0.95);
+            z-index: 1000;
+            border-bottom: 1px solid #eee;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-family: 'Playfair Display', serif;
+            font-weight: 700;
+            text-decoration: none;
+            color: var(--dark);
+        }
+
+        .nav-links a {
+            margin-left: 30px;
+            text-decoration: none;
+            color: var(--dark);
+            font-size: 13px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: var(--transition);
+        }
+
+        .cart-icon {
+            cursor: pointer;
+            position: relative;
+        }
+
+        .cart-count {
+            position: absolute;
+            top: -10px;
+            right: -10px;
+            background: var(--dark);
+            color: white;
+            font-size: 10px;
+            padding: 2px 6px;
+            border-radius: 50%;
+        }
+
+        /* --- Hero Section --- */
+        .hero {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            background: #f9f9f9; /* Место для вашего главного фото */
+            padding: 0 20px;
+        }
+
+        .hero h1 {
+            font-size: clamp(40px, 8vw, 80px);
+            margin-bottom: 20px;
+        }
+
+        .hero p {
+            font-size: 18px;
+            color: var(--text-muted);
+            margin-bottom: 30px;
+            max-width: 600px;
+        }
+
+        /* --- Products Section --- */
+        .catalog {
+            padding: 100px 50px;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 60px;
+            font-size: 32px;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 40px;
+        }
+
+        .product-card {
+            position: relative;
+            overflow: hidden;
+            transition: var(--transition);
+        }
+
+        .product-image {
+            width: 100%;
+            height: 400px;
+            background-color: #eee; /* Заглушка для фото */
+            object-fit: cover;
+            transition: var(--transition);
+        }
+
+        .product-card:hover .product-image {
+            transform: scale(1.05);
+        }
+
+        .product-info {
+            padding: 20px 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+        }
+
+        .product-info h3 {
+            font-size: 18px;
+            margin-bottom: 5px;
+        }
+
+        .price {
+            font-weight: 600;
+        }
+
+        .add-to-cart {
+            margin-top: 10px;
+            width: 100%;
+            padding: 12px;
+            background: var(--dark);
+            color: white;
+            border: none;
+            cursor: pointer;
+            text-transform: uppercase;
+            font-size: 12px;
+            letter-spacing: 1px;
+            transition: var(--transition);
+        }
+
+        .add-to-cart:hover {
+            background: #444;
+        }
+
+        /* --- Cart Sidebar --- */
+        .cart-sidebar {
+            position: fixed;
+            right: -100%;
+            top: 0;
+            width: 400px;
+            height: 100%;
+            background: white;
+            box-shadow: -5px 0 15px rgba(0,0,0,0.1);
+            z-index: 2000;
+            padding: 40px;
+            transition: 0.5s ease;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .cart-sidebar.active {
+            right: 0;
+        }
+
+        .close-cart {
+            align-self: flex-end;
+            cursor: pointer;
+            font-size: 24px;
+        }
+
+        .cart-items {
+            margin-top: 30px;
+            flex-grow: 1;
+            overflow-y: auto;
+        }
+
+        .cart-total {
+            border-top: 1px solid #eee;
+            padding-top: 20px;
+            font-size: 20px;
+            font-family: 'Playfair Display', serif;
+        }
+
+        /* --- Contact Section --- */
+        .contacts {
+            padding: 100px 50px;
+            background: var(--accent);
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 50px;
+        }
+
+        .contact-info {
+            flex: 1;
+            min-width: 300px;
+        }
+
+        .contact-info h2 { margin-bottom: 30px; }
+        .contact-info p { margin-bottom: 15px; font-size: 14px; }
+
+        footer {
+            padding: 50px;
+            text-align: center;
+            font-size: 12px;
+            color: var(--text-muted);
+            border-top: 1px solid #eee;
+        }
+
+        @media (max-width: 768px) {
+            nav { padding: 15px 20px; }
+            .cart-sidebar { width: 100%; }
+            .catalog, .contacts { padding: 60px 20px; }
+        }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <a href="#" class="logo">БЕЛАЯ ЛИСА</a>
+        <div class="nav-links">
+            <a href="#catalog">Каталог</a>
+            <a href="#contacts">Контакты</a>
+            <span class="cart-icon" onclick="toggleCart()">
+                КОРЗИНА (<span id="cart-count">0</span>)
+            </span>
+        </div>
+    </nav>
+
+    <section class="hero">
+        <h1>Чистый вкус. Смелый дизайн.</h1>
+        <p>Современная кондитерская для тех, кто ценит эстетику и натуральность в каждом кусочке.</p>
+        <a href="#catalog" style="color: black; text-decoration: underline; font-size: 14px; text-transform: uppercase;">Смотреть коллекцию</a>
+    </section>
+
+    <section id="catalog" class="catalog">
+        <h2 class="section-title">Сезонная коллекция</h2>
+        <div class="grid">
+            <div class="product-card">
+                <div class="product-image" style="background-image: url('https://via.placeholder.com/400x500/f4f4f4/1a1a1a?text=Cake+1'); background-size: cover;"></div>
+                <div class="product-info">
+                    <div>
+                        <h3>Муссовый торт "Нуар"</h3>
+                        <p style="color: #888; font-size: 12px;">700г / Тёмный шоколад</p>
+                    </div>
+                    <span class="price">2400₽</span>
+                </div>
+                <button class="add-to-cart" onclick="addToCart('Торт Нуар', 2400)">Добавить в корзину</button>
+            </div>
+
+            <div class="product-card">
+                <div class="product-image" style="background-image: url('https://via.placeholder.com/400x500/f4f4f4/1a1a1a?text=Cake+2'); background-size: cover;"></div>
+                <div class="product-info">
+                    <div>
+                        <h3>Сет макарон "White Fox"</h3>
+                        <p style="color: #888; font-size: 12px;">12 шт / Авторский набор</p>
+                    </div>
+                    <span class="price">1800₽</span>
+                </div>
+                <button class="add-to-cart" onclick="addToCart('Сет макарон', 1800)">Добавить в корзину</button>
+            </div>
+
+            <div class="product-card">
+                <div class="product-image" style="background-image: url('https://via.placeholder.com/400x500/f4f4f4/1a1a1a?text=Cake+3'); background-size: cover;"></div>
+                <div class="product-info">
+                    <div>
+                        <h3>Тарталетка "Лимон-Базилик"</h3>
+                        <p style="color: #888; font-size: 12px;">150г / Освежающий вкус</p>
+                    </div>
+                    <span class="price">450₽</span>
+                </div>
+                <button class="add-to-cart" onclick="addToCart('Тарталетка', 450)">Добавить в корзину</button>
+            </div>
+        </div>
+    </section>
+
+    <section id="contacts" class="contacts">
+        <div class="contact-info">
+            <h2>Свяжитесь с нами</h2>
+            <p><strong>Адрес:</strong> Москва, ул. Примерная, 12 (Дизайн-завод)</p>
+            <p><strong>Телефон:</strong> +7 (999) 000-00-00</p>
+            <p><strong>Часы:</strong> 09:00 — 21:00 ежедневно</p>
+            <br>
+            <p>Заказы принимаются минимум за 48 часов до выдачи.</p>
+        </div>
+        <div style="flex: 1; min-width: 300px; height: 300px; background: #ddd; display: flex; align-items: center; justify-content: center;">
+            <p style="color: #888;">[ Здесь будет карта ]</p>
+        </div>
+    </section>
+
+    <div class="cart-sidebar" id="cartSidebar">
+        <div class="close-cart" onclick="toggleCart()">×</div>
+        <h2>Ваш заказ</h2>
+        <div class="cart-items" id="cartItems">
+            <p style="color: #888;">Корзина пуста</p>
+        </div>
+        <div class="cart-total">
+            Итого: <span id="cartTotal">0</span>₽
+        </div>
+        <button class="add-to-cart" style="margin-top: 20px;">Оформить заказ</button>
+    </div>
+
+    <footer>
+        &copy; 2025 Кондитерская «Белая Лиса». Эстетика вкуса.
+    </footer>
+
+    <script>
+        let cart = [];
+        const cartSidebar = document.getElementById('cartSidebar');
+        const cartItemsContainer = document.getElementById('cartItems');
+        const cartCount = document.getElementById('cart-count');
+        const cartTotal = document.getElementById('cartTotal');
+
+        function toggleCart() {
+            cartSidebar.classList.toggle('active');
+        }
+
+        function addToCart(name, price) {
+            cart.push({name, price});
+            updateCart();
+            if(!cartSidebar.classList.contains('active')) {
+                toggleCart();
+            }
+        }
+
+        function updateCart() {
+            cartCount.innerText = cart.length;
+            
+            if (cart.length === 0) {
+                cartItemsContainer.innerHTML = '<p style="color: #888;">Корзина пуста</p>';
+                cartTotal.innerText = 0;
+                return;
+            }
+
+            cartItemsContainer.innerHTML = cart.map((item, index) => `
+                <div style="display: flex; justify-content: space-between; margin-bottom: 15px; font-size: 14px;">
+                    <span>${item.name}</span>
+                    <span>${item.price}₽</span>
+                </div>
+            `).join('');
+
+            const total = cart.reduce((sum, item) => sum + item.price, 0);
+            cartTotal.innerText = total;
+        }
+    </script>
+</body>
+</html>
